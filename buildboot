@@ -14,7 +14,7 @@ export ARCH=arm
 make clean -j4
 make -j16
 cd ../
-cp ./kernel10c/scripts/mkbootimg ./output/boot
+cp ./mkbootimg ./output/boot
 find . -name '*.ko' -exec cp {} ./output/system/lib/modules  \;
 find . -name 'zImage' -exec cp {} ./output/boot  \;
 cd ./output/boot
