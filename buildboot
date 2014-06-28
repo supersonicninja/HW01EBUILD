@@ -1,0 +1,29 @@
+#!/bin/bash
+clear
+rm -f ./output/*.zip
+rm -rf ./output/boot
+rm -rf ./output/system/lib/modules
+mkdir -p ./output/system/lib/modules
+mkdir -p ./output/boot
+#./mkbootfs ./ramdisk | gzip > ramdisk.gz
+cp ramdisk.cpio.gz ./output/boot
+cd HW01EKERNEL
+export CROSS_COMPILE=../android-toolchain-eabi/bin/arm-linux-androideabi-
+export USE_CCACHE=1
+export ARCH=arm
+make clean -j4
+make -j16
+cd ../
+cp ./kernel10c/scripts/mkbootimg ./output/boot
+find . -name '*.ko' -exec cp {} ./output/system/lib/modules  \;
+find . -name 'zImage' -exec cp {} ./output/boot  \;
+cd ./output/boot
+base=0x80200000
+ramoffset=0x01400000
+cmd_line="androidboot.hardware=huawei user_debug=31 kgsl.mmutype=gpummu"
+./mkbootimg --kernel ./zImage --ramdisk ./ramdisk.cpio.gz --cmdline "$cmd_line" --base $base --ramdisk_offset $ramoffset --pagesize 2048 -o boot.img
+mv ./boot.img ../boot.img
+cd ../
+rm -rf ./boot/
+zip -r HW01ENinjaKernel.zip *
+rm -f ./boot.
