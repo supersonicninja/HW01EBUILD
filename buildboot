@@ -19,9 +19,11 @@ find . -name '*.ko' -exec cp {} ./output/system/lib/modules  \;
 find . -name 'zImage' -exec cp {} ./output/boot  \;
 cd ./output/boot
 base=0x80200000
-ramoffset=0x01400000
+kerneloff=0x00008000
+ramoff=0x01400000
+tagsoff=0x00000100
 cmd_line="androidboot.hardware=huawei user_debug=31 kgsl.mmutype=gpummu"
-./mkbootimg --kernel ./zImage --ramdisk ./ramdisk.cpio.gz --cmdline "$cmd_line" --base $base --ramdisk_offset $ramoffset --pagesize 2048 -o boot.img
+./mkbootimg --kernel ./zImage --ramdisk ./ramdisk.cpio.gz --cmdline "$cmd_line" --base $base --kernel_offset $kerneloff --ramdisk_offset $ramoff --tags_offset $tagsoff --pagesize 2048 -o boot.img
 mv ./boot.img ../boot.img
 cd ../
 rm -rf ./boot/
