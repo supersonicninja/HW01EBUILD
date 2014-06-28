@@ -8,8 +8,7 @@ mkdir -p ./output/boot
 #./mkbootfs ./ramdisk | gzip > ramdisk.gz
 cp ramdisk.cpio.gz ./output/boot
 cd HW01EKERNEL
-export CROSS_COMPILE=../android-toolchain-eabi/bin/arm-linux-androideabi-
-export USE_CCACHE=1
+export CROSS_COMPILE="../ccache ../android-toolchain-eabi/bin/arm-linux-androideabi-"
 export ARCH=arm
 make clean -j4
 make -j16
