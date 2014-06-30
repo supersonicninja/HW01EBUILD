@@ -7,8 +7,8 @@ mkdir -p ./output/system/lib/modules
 mkdir -p ./output/boot
 #./mkbootfs ./ramdisk | gzip > ramdisk.gz
 cp ramdisk.cpio.gz ./output/boot
-cd HW01EKERNEL
-export CROSS_COMPILE="../ccache ../arm-eabi-4.6/bin/arm-eabi-"
+cd NinjaKernelHW01E
+export CROSS_COMPILE="../ccache ../ndk4.6/bin/arm-linux-androideabi-"
 export ARCH=arm
 make clean -j4
 make -j16
@@ -27,4 +27,4 @@ mv ./boot.img ../boot.img
 cd ../
 rm -rf ./boot/
 zip -r HW01ENinjaKernel.zip *
-rm -f ./boot.
+rm -f ./boot.img
